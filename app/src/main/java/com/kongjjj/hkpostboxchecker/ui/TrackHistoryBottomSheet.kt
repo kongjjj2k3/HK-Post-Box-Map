@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,6 +13,7 @@ import com.kongjjj.hkpostboxchecker.adapter.TrackAdapter
 import com.kongjjj.hkpostboxchecker.databinding.BottomSheetTrackHistoryBinding
 import com.kongjjj.hkpostboxchecker.model.TrackRecord
 import com.kongjjj.hkpostboxchecker.repository.TrackRepository
+import com.kongjjj.hkpostboxchecker.util.GpxExporter
 import kotlinx.coroutines.launch
 
 class TrackHistoryBottomSheet : BottomSheetDialogFragment() {
@@ -72,6 +74,9 @@ class TrackHistoryBottomSheet : BottomSheetDialogFragment() {
                 onSelectTrackListener?.invoke(track)
                 dismiss()
             },
+            onExportGpx = { track ->
+                exportGpxFile(track)
+            },
             onDelete = { track ->
                 confirmDeleteTrack(track)
             }
@@ -80,6 +85,17 @@ class TrackHistoryBottomSheet : BottomSheetDialogFragment() {
         binding.recyclerTracks.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = trackAdapter
+        }
+    }
+
+    private fun exportGpxFile(track: TrackRecord) {
+        val result = GpxExporter.exportTrackToGpx(requireContext(), track)
+        result.onSuccess { savedPath ->
+            val msg = if (isTc) "已成功匯出 .gpx 檔案至手機儲存空間：\n$savedPath" else "Successfully exported .gpx to storage:\n$savedPath"
+            Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
+        }.onFailure { err ->
+            val msg = if (isTc) "匯出 .gpx 失敗：${err.localizedMessage}" else "Failed to export .gpx: ${err.localizedMessage}"
+            Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
         }
     }
 

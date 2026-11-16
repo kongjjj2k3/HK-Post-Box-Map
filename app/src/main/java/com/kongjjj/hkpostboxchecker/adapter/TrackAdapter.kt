@@ -11,6 +11,7 @@ import com.kongjjj.hkpostboxchecker.model.TrackRecord
 class TrackAdapter(
     private val isTc: Boolean = true,
     private val onShowOnMap: (TrackRecord) -> Unit,
+    private val onExportGpx: (TrackRecord) -> Unit,
     private val onDelete: (TrackRecord) -> Unit
 ) : ListAdapter<TrackRecord, TrackAdapter.TrackViewHolder>(TrackDiffCallback()) {
 
@@ -44,6 +45,11 @@ class TrackAdapter(
             binding.btnShowOnMap.text = if (isTc) "在地圖上顯示軌跡" else "Show Track on Map"
             binding.btnShowOnMap.setOnClickListener {
                 onShowOnMap(track)
+            }
+
+            binding.btnExportGpx.text = if (isTc) "另存為 .gpx 檔案" else "Export as .gpx File"
+            binding.btnExportGpx.setOnClickListener {
+                onExportGpx(track)
             }
 
             binding.btnDeleteTrack.setOnClickListener {

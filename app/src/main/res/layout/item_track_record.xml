@@ -87,17 +87,35 @@
                 tools:text="時間: 15分 30秒" />
         </LinearLayout>
 
+        <!-- Show on Map Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_show_on_map"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
-            android:text="在地圖上顯示軌跡 / Show on Map"
+            android:text="在地圖上顯示軌跡"
             android:textColor="#64B5F6"
             android:textSize="13sp"
             app:cornerRadius="8dp"
             app:strokeColor="#64B5F6" />
+
+        <!-- Export as GPX Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_export_gpx"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="6dp"
+            android:text="另存為 .gpx 檔案"
+            android:textColor="#FFD54F"
+            android:textSize="13sp"
+            app:cornerRadius="8dp"
+            app:icon="@android:drawable/ic_menu_save"
+            app:iconGravity="textStart"
+            app:iconPadding="6dp"
+            app:iconTint="#FFD54F"
+            app:strokeColor="#FFD54F" />
 
     </LinearLayout>
 
