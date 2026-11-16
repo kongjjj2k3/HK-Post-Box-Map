@@ -1,6 +1,15 @@
 # 香港郵箱地圖 (HK Post Box Map) 📮🗺️
 
 一個基於 Android、OpenStreetMap (osmdroid) 及香港 CSDI (空間數據共享平台) Open Data 打造的完整郵箱地圖與 GPS 行山軌跡記錄應用程式。
+<br><br>
+[![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://)
+![GitHub repo size](https://img.shields.io/github/repo-size/kongjjj2k3/HK-Post-Box-Map?&style=for-the-badge)
+[![Last Commit](https://img.shields.io/github/last-commit/kongjjj2k3/HK-Post-Box-Map?style=for-the-badge)](https://github.com/kongjjj2k3/HK-Post-Box-Map/commits)
+![GitHub language count](https://img.shields.io/github/languages/count/kongjjj2k3/HK-Post-Box-Map?&style=for-the-badge)
+![GitHub top language](https://img.shields.io/github/languages/top/kongjjj2k3/HK-Post-Box-Map?&style=for-the-badge)
+[![Release](https://img.shields.io/github/release/kongjjj2k3/HK-Post-Box-Map?color=0000FF&label=Release&style=for-the-badge&logo=android&logoColor=white)](https://github.com/kongjjj2k3/HK-Post-Box-Map/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/kongjjj2k3/HK-Post-Box-Map/total?label=Downloads&style=for-the-badge&color=lightgreen)](https://github.com/kongjjj2k3/HK-Post-Box-Map/releases)
+
 
 ## 🌟 主要功能與特色 (Key Features)
 
