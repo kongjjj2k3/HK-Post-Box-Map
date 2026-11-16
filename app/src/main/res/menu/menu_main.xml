@@ -1,0 +1,50 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.kongjjj.hkpostboxchecker.MainActivity">
+
+    <item
+        android:id="@+id/action_refresh"
+        android:icon="@drawable/ic_refresh"
+        android:orderInCategory="1"
+        android:title="更新數據"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_language"
+        android:orderInCategory="2"
+        android:title="切換語言"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_planned_route"
+        android:icon="@drawable/ic_route_plan"
+        android:orderInCategory="3"
+        android:title="預定路徑"
+        app:showAsAction="never" />
+
+    <group
+        android:id="@+id/group_history_tracks"
+        android:orderInCategory="10">
+
+        <item
+            android:id="@+id/action_track_history"
+            android:icon="@drawable/ic_track_history"
+            android:orderInCategory="11"
+            android:title="查看軌跡記錄"
+            app:showAsAction="never" />
+
+        <item
+            android:id="@+id/action_toggle_track_color"
+            android:orderInCategory="12"
+            android:title="切換錄製軌跡顏色 (紅/綠)"
+            app:showAsAction="never" />
+
+        <item
+            android:id="@+id/action_clear_history_track"
+            android:orderInCategory="13"
+            android:title="隱藏地圖顯示的歷史軌跡"
+            app:showAsAction="never" />
+    </group>
+
+</menu>

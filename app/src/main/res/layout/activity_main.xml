@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#121212"
+    android:fitsSystemWindows="true"
+    tools:context=".MainActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#1E1E1E"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:background="#1E1E1E"
+            app:title="@string/app_name"
+            app:titleTextAppearance="@style/ToolbarTitleStyle"
+            app:titleTextColor="#F0F0F0" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <include
+        android:id="@+id/content_main"
+        layout="@layout/content_main" />
+
+    <!-- Bottom-Left Action Buttons (Planned Route & Sequence List) -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_sequence_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:contentDescription="Open sequence list"
+            android:src="@drawable/ic_list_ordered"
+            app:backgroundTint="#2A2A2A"
+            app:fabSize="mini"
+            app:tint="#FFB300" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_planned_route"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Toggle planned route"
+            android:src="@drawable/ic_route_plan"
+            app:backgroundTint="#2A2A2A"
+            app:fabSize="mini"
+            app:tint="#FF6F00" />
+
+    </LinearLayout>
+
+    <!-- Bottom-Right Action Buttons (Tracking, View Mode, Location) -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_tracking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:contentDescription="Start or stop GPS track recording"
+            android:src="@drawable/ic_record_start"
+            app:backgroundTint="#2A2A2A"
+            app:fabSize="mini"
+            app:tint="#D32F2F" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_view_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:contentDescription="Toggle map or list view"
+            android:src="@drawable/ic_list"
+            app:backgroundTint="#2A2A2A"
+            app:fabSize="mini"
+            app:tint="#FF5252" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Locate my position"
+            android:src="@drawable/ic_my_location"
+            app:backgroundTint="#2A2A2A"
+            app:fabSize="mini"
+            app:tint="#64B5F6" />
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

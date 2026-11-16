@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">香港郵箱地圖 HK Post Box Map</string>
+    <string name="action_refresh">更新數據 Refresh</string>
+    <string name="action_language">切換語言 English</string>
+    <string name="search_hint_tc">搜尋郵箱編號、地址或地區...</string>
+    <string name="search_hint_en">Search box no., address, district...</string>
+    <string name="all_districts_tc">全部地區</string>
+    <string name="all_districts_en">All Districts</string>
+    <string name="locate_my_position">我的位置 Locate Me</string>
+    <string name="toggle_view_mode">切換地圖/列表 View Mode</string>
+</resources>

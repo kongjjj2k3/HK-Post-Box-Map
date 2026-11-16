@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="bg_dark">#121212</color>
+    <color name="surface_dark">#1E1E1E</color>
+    <color name="card_dark">#242424</color>
+    <color name="postal_red">#D32F2F</color>
+    <color name="postal_red_light">#FF5252</color>
+    <color name="text_primary_dark">#F0F0F0</color>
+    <color name="text_secondary_dark">#B0B0B0</color>
+</resources>
