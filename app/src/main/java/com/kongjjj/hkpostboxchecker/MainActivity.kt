@@ -447,18 +447,23 @@ class MainActivity : AppCompatActivity() {
         }
         mapView.overlays.add(displayedHistoryPolyline)
 
-        // Start marker
+        val startDrawable = AppCompatResources.getDrawable(this, R.drawable.ic_marker_start)
+        val endDrawable = AppCompatResources.getDrawable(this, R.drawable.ic_marker_end)
+
+        // Start marker (Green Pin)
         val startTitle = if (isTc) "起點: ${track.title}" else "Start: ${track.title}"
         val startMarker = Marker(mapView).apply {
             position = geoPoints.first()
             title = startTitle
+            icon = startDrawable
             setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
         }
-        // End marker
+        // End marker (Red Pin)
         val endTitle = if (isTc) "終點: ${track.getFormattedDistance()}" else "End: ${track.getFormattedDistance()}"
         val endMarker = Marker(mapView).apply {
             position = geoPoints.last()
             title = endTitle
+            icon = endDrawable
             setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
         }
 
