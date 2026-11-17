@@ -175,9 +175,9 @@ class MainActivity : AppCompatActivity() {
         mapView.isTilesScaledToDpi = true
         mapView.tilesScaleFactor = 1.25f
 
-        // Increase Max Zoom Level to 21.0 for deep close-up zooming
+        // Set Max Zoom Level to 20.0
         mapView.minZoomLevel = 10.0
-        mapView.maxZoomLevel = 21.0
+        mapView.maxZoomLevel = 20.0
         mapView.controller.setZoom(13.0)
         mapView.controller.setCenter(hkCenterPoint)
 
