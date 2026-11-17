@@ -12,8 +12,8 @@
 [![Downloads](https://img.shields.io/github/downloads/kongjjj2k3/HK-Post-Box-Map/total?label=Downloads&style=for-the-badge&color=lightgreen)](https://github.com/kongjjj2k3/HK-Post-Box-Map/releases)
 
 </div>
-
-
+![HK-Post-Box-Map](pics/Screenshot_1.jpg)
+![HK-Post-Box-Map](pics/Screenshot_2.jpg)
 ## 🌟 Key Features
 - 📮 Complete Map Mapping of All 1,157 Street Postboxes in Hong Kong:
   - Connects to the CSDI API for real-time data retrieval, supplemented by a built-in offline GeoJSON fallback database.
