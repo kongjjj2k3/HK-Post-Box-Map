@@ -142,7 +142,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         setSupportActionBar(binding.toolbar)
-        binding.toolbar.overflowIcon = AppCompatResources.getDrawable(this, R.drawable.ic_timeline)
 
         setupMapView()
         setupRecyclerView()
@@ -594,14 +593,9 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.title = if (isTc) "香港郵箱地圖" else "HK Post Box Map"
         binding.contentMain.searchView.queryHint = if (isTc) "搜尋郵箱編號、地址或地區..." else "Search box no., address, district..."
 
-        optionsMenu?.findItem(R.id.action_settings)?.title = if (isTc) "設定" else "Settings"
         optionsMenu?.findItem(R.id.action_refresh)?.title = if (isTc) "更新數據" else "Refresh Data"
         optionsMenu?.findItem(R.id.action_track_history)?.title = if (isTc) "查看軌跡記錄" else "Track History"
-        optionsMenu?.findItem(R.id.action_toggle_track_color)?.title = if (isTc) {
-            if (useRedTrackingLine) "切換錄製軌跡顏色 (現為紅色)" else "切換錄製軌跡顏色 (現為綠色)"
-        } else {
-            if (useRedTrackingLine) "Toggle Track Color (Current: Red)" else "Toggle Track Color (Current: Green)"
-        }
+        optionsMenu?.findItem(R.id.action_settings)?.title = if (isTc) "設定" else "Settings"
         optionsMenu?.findItem(R.id.action_clear_history_track)?.title = if (isTc) "隱藏地圖顯示的歷史軌跡" else "Hide Displayed Track"
 
         setupDistrictChips(isTc)
@@ -761,20 +755,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 sheet.show(supportFragmentManager, "track_history")
-                true
-            }
-            R.id.action_toggle_track_color -> {
-                useRedTrackingLine = !useRedTrackingLine
-                val colorName = if (isTc) {
-                    if (useRedTrackingLine) "紅色" else "綠色"
-                } else {
-                    if (useRedTrackingLine) "Red" else "Green"
-                }
-                activePolyline?.outlinePaint?.color = if (useRedTrackingLine) Color.parseColor("#FF1744") else Color.parseColor("#00E676")
-                mapView.invalidate()
-                updateLanguageUi(isTc)
-                val msg = if (isTc) "錄製軌跡顏色已切換為：$colorName" else "Track color switched to: $colorName"
-                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
                 true
             }
             R.id.action_clear_history_track -> {
