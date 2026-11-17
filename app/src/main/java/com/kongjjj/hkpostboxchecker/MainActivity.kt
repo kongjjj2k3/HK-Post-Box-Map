@@ -60,6 +60,7 @@ import org.osmdroid.events.MapListener
 import org.osmdroid.events.ScrollEvent
 import org.osmdroid.events.ZoomEvent
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
+import org.osmdroid.tileprovider.tilesource.XYTileSource
 import org.osmdroid.util.BoundingBox
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
@@ -94,6 +95,17 @@ class MainActivity : AppCompatActivity() {
     // Planned Route Overlay
     private var plannedRoutePolyline: Polyline? = null
     private val plannedRouteMarkers = mutableListOf<Marker>()
+
+    // Tile Source Selection
+    private var selectedTileSourceIndex = 0
+    private val tileSourceMapTilerOmt = XYTileSource(
+        "MapTiler_OMT",
+        0, 19, 256, ".png",
+        arrayOf(
+            "https://a.tile.openstreetmap.fr/hot/",
+            "https://b.tile.openstreetmap.fr/hot/"
+        )
+    )
 
     // Hong Kong Center Coordinates
     private val hkCenterPoint = GeoPoint(22.3193, 114.1694)
@@ -206,6 +218,49 @@ class MainActivity : AppCompatActivity() {
         val currentZoom = mapView.zoomLevelDouble
         val formattedZoom = String.format(Locale.getDefault(), "%.1f", currentZoom)
         optionsMenu?.findItem(R.id.action_zoom_level)?.title = formattedZoom
+    }
+
+    private fun showMapStyleDialog() {
+        val isTc = viewModel.uiState.value.isTraditionalChinese
+        val options = if (isTc) {
+            arrayOf("標準 (Standard)", "等高線地形圖 (OpenTopo)", "MapTiler OMT")
+        } else {
+            arrayOf("Standard (Mapnik)", "Topographic Terrain", "MapTiler OMT")
+        }
+
+        val title = if (isTc) "選擇地圖風格圖層" else "Select Map Style"
+
+        AlertDialog.Builder(this)
+            .setTitle(title)
+            .setSingleChoiceItems(options, selectedTileSourceIndex) { dialog, which ->
+                selectedTileSourceIndex = which
+                applyTileSource(which)
+                dialog.dismiss()
+            }
+            .setNegativeButton(if (isTc) "取消" else "Cancel", null)
+            .show()
+    }
+
+    private fun applyTileSource(index: Int) {
+        val isTc = viewModel.uiState.value.isTraditionalChinese
+        when (index) {
+            0 -> {
+                mapView.setTileSource(TileSourceFactory.MAPNIK)
+                val msg = if (isTc) "地圖圖層已切換為：標準" else "Map style set to: Standard"
+                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+            }
+            1 -> {
+                mapView.setTileSource(TileSourceFactory.OpenTopo)
+                val msg = if (isTc) "地圖圖層已切換為：等高線地形圖" else "Map style set to: OpenTopo Terrain"
+                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+            }
+            2 -> {
+                mapView.setTileSource(tileSourceMapTilerOmt)
+                val msg = if (isTc) "地圖圖層已切換為：MapTiler OMT" else "Map style set to: MapTiler OMT"
+                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+            }
+        }
+        mapView.invalidate()
     }
 
     private fun showZoomSliderDialog() {
@@ -661,6 +716,7 @@ class MainActivity : AppCompatActivity() {
 
         updateZoomLevelDisplay()
 
+        optionsMenu?.findItem(R.id.action_map_style)?.title = if (isTc) "地圖風格" else "Map Style"
         optionsMenu?.findItem(R.id.action_track_history)?.title = if (isTc) "查看軌跡記錄" else "Track History"
         optionsMenu?.findItem(R.id.action_settings)?.title = if (isTc) "設定" else "Settings"
 
@@ -795,6 +851,10 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val isTc = viewModel.uiState.value.isTraditionalChinese
         return when (item.itemId) {
+            R.id.action_map_style -> {
+                showMapStyleDialog()
+                true
+            }
             R.id.action_zoom_level -> {
                 showZoomSliderDialog()
                 true

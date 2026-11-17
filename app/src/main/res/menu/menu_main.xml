@@ -4,22 +4,29 @@
     tools:context="com.kongjjj.hkpostboxchecker.MainActivity">
 
     <item
-        android:id="@+id/action_zoom_level"
+        android:id="@+id/action_map_style"
+        android:icon="@drawable/ic_layers"
         android:orderInCategory="1"
+        android:title="地圖風格"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_zoom_level"
+        android:orderInCategory="2"
         android:title="13.0"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_track_history"
         android:icon="@drawable/ic_timeline"
-        android:orderInCategory="2"
+        android:orderInCategory="3"
         android:title="查看軌跡記錄"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_settings"
         android:icon="@drawable/ic_settings"
-        android:orderInCategory="3"
+        android:orderInCategory="4"
         android:title="設定"
         app:showAsAction="always" />
 
