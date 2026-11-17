@@ -175,14 +175,16 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tv_app_version"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="香港郵箱地圖 HK Post Box Map v1.0"
                 android:textColor="#F0F0F0"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                tools:text="香港郵箱地圖 v1.0" />
 
             <TextView
+                android:id="@+id/tv_data_source"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"

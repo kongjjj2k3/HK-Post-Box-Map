@@ -1,5 +1,6 @@
 package com.kongjjj.hkpostboxchecker.ui
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -82,9 +83,25 @@ class SettingsBottomSheet : BottomSheetDialogFragment() {
                     binding.tvLblTrackColor.text = if (isTc) "錄製軌跡顏色" else "Tracking Line Color"
                     binding.tvDescTrackColor.text = if (isTc) "切換紅色 / 綠色軌跡路線" else "Toggle Red / Green tracking line"
                     binding.tvLblAbout.text = if (isTc) "關於" else "About"
+                    updateAppVersionDisplay(isTc)
                 }
             }
         }
+    }
+
+    private fun updateAppVersionDisplay(isTc: Boolean) {
+        val versionStr = try {
+            val ctx = requireContext()
+            val pInfo = ctx.packageManager.getPackageInfo(ctx.packageName, 0)
+            val vName = pInfo.versionName ?: "1.0"
+            @Suppress("DEPRECATION")
+            val vCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) pInfo.longVersionCode else pInfo.versionCode.toLong()
+            "v$vName (Build $vCode)"
+        } catch (e: Exception) {
+            "v1.0"
+        }
+        val appTitle = if (isTc) "香港郵箱地圖 " else "HK Post Box Map "
+        binding.tvAppVersion.text = "$appTitle$versionStr"
     }
 
     override fun onDestroyView() {
