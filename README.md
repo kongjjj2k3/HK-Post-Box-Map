@@ -14,7 +14,7 @@
 </div>
 
 
-## Key Features
+## 🌟 Key Features
 - 📮 Complete Map Mapping of All 1,157 Street Postboxes in Hong Kong:
   - Connects to the CSDI API for real-time data retrieval, supplemented by a built-in offline GeoJSON fallback database.
   - Supports viewing postbox numbers, detailed addresses, districts, daily collection/cut-off times, and one-tap navigation via Google Maps.
@@ -27,8 +27,8 @@
   - Track files are automatically saved persistently and can be replayed anytime in the "View Track History" menu, highlighted on OpenStreetMap.
   - Tracks can be exported as .gpx files for use in external mapping applications.
 - 🗺️ Custom Planned Postbox Walking Route:
-  -Freely select multiple postboxes as targets to assemble an optimal walking navigation sequence (1, 2, 3...).
-  -Real-time numbered badges and a golden planned route are displayed on the map; sequence data is automatically saved and restored (Auto-Save/Restore) even after restarting the app.
+  - Freely select multiple postboxes as targets to assemble an optimal walking navigation sequence (1, 2, 3...).
+  - Real-time numbered badges and a golden planned route are displayed on the map; sequence data is automatically saved and restored (Auto-Save/Restore) even after restarting the app.
 - 🎨 Charcoal Dark Mode & Authentic Bilingual Switching (Traditional Chinese / English).
 
 ## 🌟 主要功能與特色
