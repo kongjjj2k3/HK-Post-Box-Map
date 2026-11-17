@@ -35,13 +35,12 @@
             tools:text="13.0" />
     </LinearLayout>
 
-    <!-- Zoom Level Slider -->
+    <!-- Continuous Zoom Level Slider -->
     <com.google.android.material.slider.Slider
         android:id="@+id/slider_zoom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:stepSize="0.5"
         android:valueFrom="10.0"
         android:valueTo="20.0"
         app:thumbColor="#FF5252"

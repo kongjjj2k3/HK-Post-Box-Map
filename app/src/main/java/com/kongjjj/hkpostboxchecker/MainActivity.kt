@@ -217,9 +217,10 @@ class MainActivity : AppCompatActivity() {
 
         tvTitle.text = if (isTc) "調整地圖縮放 (Zoom Level)" else "Map Zoom Level"
 
-        val currentZoom = mapView.zoomLevelDouble.toFloat().coerceIn(10.0f, 20.0f)
-        slider.value = currentZoom
-        tvValue.text = String.format(Locale.getDefault(), "%.1f", currentZoom)
+        val rawZoom = mapView.zoomLevelDouble.toFloat().coerceIn(10.0f, 20.0f)
+        val roundedZoom = (Math.round(rawZoom * 10f) / 10f).coerceIn(10.0f, 20.0f)
+        slider.value = roundedZoom
+        tvValue.text = String.format(Locale.getDefault(), "%.1f", roundedZoom)
 
         slider.addOnChangeListener { _, value, _ ->
             tvValue.text = String.format(Locale.getDefault(), "%.1f", value)
