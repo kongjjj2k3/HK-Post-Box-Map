@@ -171,9 +171,9 @@ class MainActivity : AppCompatActivity() {
         mapView.setMultiTouchControls(true)
         mapView.setBuiltInZoomControls(false)
 
-        // Enable tile DPI scaling & scale factor to enlarge building names and street labels
+        // Set tile DPI scaling & scale factor to 1.00f
         mapView.isTilesScaledToDpi = true
-        mapView.tilesScaleFactor = 1.25f
+        mapView.tilesScaleFactor = 1.00f
 
         // Set Max Zoom Level to 20.0
         mapView.minZoomLevel = 10.0
