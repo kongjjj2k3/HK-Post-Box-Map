@@ -12,9 +12,6 @@
 [![Downloads](https://img.shields.io/github/downloads/kongjjj2k3/HK-Post-Box-Map/total?label=Downloads&style=for-the-badge&color=lightgreen)](https://github.com/kongjjj2k3/HK-Post-Box-Map/releases)
 
 </div>
-![HK-Post-Box-Map](pics/Screenshot_1.jpg)
-![HK-Post-Box-Map](pics/Screenshot_2.jpg)
-
 
 ## 🌟 Key Features
 - 📮 Complete Map Mapping of All 1,157 Street Postboxes in Hong Kong:
@@ -50,6 +47,14 @@
   - 可自由選擇多個郵箱為目標，組合出最佳步行導航順序 (1, 2, 3...)。
   - 地圖實時標示序號 Badge 及金黃色預定路線，順序資料自動持久化保存 (Auto-Save/Restore)，重啟 App 依然保留。
 - 🎨 **炭灰黑暗色主題 (Dark Mode)** & **純正雙語切換 (Traditional Chinese / English)**。
+
+
+
+
+![HK-Post-Box-Map](pics/Screenshot_1.jpg)
+![HK-Post-Box-Map](pics/Screenshot_2.jpg)
+
+
 
 ## 🛠️ 技術棧 (Tech Stack)
 
