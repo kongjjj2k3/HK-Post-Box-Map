@@ -12,6 +12,8 @@
 [![Downloads](https://img.shields.io/github/downloads/kongjjj2k3/HK-Post-Box-Map/total?label=Downloads&style=for-the-badge&color=lightgreen)](https://github.com/kongjjj2k3/HK-Post-Box-Map/releases)
 
 </div>
+
+
 ##Key Features
 - 📮 Complete Map Mapping of All 1,157 Street Postboxes in Hong Kong:
   - Connects to the CSDI API for real-time data retrieval, supplemented by a built-in offline GeoJSON fallback database.
@@ -29,7 +31,7 @@
   -Real-time numbered badges and a golden planned route are displayed on the map; sequence data is automatically saved and restored (Auto-Save/Restore) even after restarting the app.
 - 🎨 Charcoal Dark Mode & Authentic Bilingual Switching (Traditional Chinese / English).
 
-## 🌟 主要功能與特色 (Key Features)
+## 🌟 主要功能與特色
 
 - 📮 **全港 1,157 個街道郵箱完整地圖標註**：
   - 對接 CSDI API 實時讀取，同時內建離線 GeoJSON 備用資料庫。
