@@ -47,6 +47,7 @@ import com.kongjjj.hkpostboxchecker.service.GpsTrackingService
 import com.kongjjj.hkpostboxchecker.service.TrackingState
 import com.kongjjj.hkpostboxchecker.ui.PostBoxDetailBottomSheet
 import com.kongjjj.hkpostboxchecker.ui.SequenceListBottomSheet
+import com.kongjjj.hkpostboxchecker.ui.SettingsBottomSheet
 import com.kongjjj.hkpostboxchecker.ui.TrackHistoryBottomSheet
 import com.kongjjj.hkpostboxchecker.viewmodel.MainViewModel
 import com.kongjjj.hkpostboxchecker.viewmodel.UiState
@@ -141,6 +142,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         setSupportActionBar(binding.toolbar)
+        binding.toolbar.overflowIcon = AppCompatResources.getDrawable(this, R.drawable.ic_timeline)
 
         setupMapView()
         setupRecyclerView()
@@ -592,9 +594,8 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.title = if (isTc) "香港郵箱地圖" else "HK Post Box Map"
         binding.contentMain.searchView.queryHint = if (isTc) "搜尋郵箱編號、地址或地區..." else "Search box no., address, district..."
 
+        optionsMenu?.findItem(R.id.action_settings)?.title = if (isTc) "設定" else "Settings"
         optionsMenu?.findItem(R.id.action_refresh)?.title = if (isTc) "更新數據" else "Refresh Data"
-        optionsMenu?.findItem(R.id.action_language)?.title = if (isTc) "切換語言" else "Language"
-        optionsMenu?.findItem(R.id.action_planned_route)?.title = if (isTc) "預定路徑" else "Planned Route"
         optionsMenu?.findItem(R.id.action_track_history)?.title = if (isTc) "查看軌跡記錄" else "Track History"
         optionsMenu?.findItem(R.id.action_toggle_track_color)?.title = if (isTc) {
             if (useRedTrackingLine) "切換錄製軌跡顏色 (現為紅色)" else "切換錄製軌跡顏色 (現為綠色)"
@@ -604,26 +605,6 @@ class MainActivity : AppCompatActivity() {
         optionsMenu?.findItem(R.id.action_clear_history_track)?.title = if (isTc) "隱藏地圖顯示的歷史軌跡" else "Hide Displayed Track"
 
         setupDistrictChips(isTc)
-    }
-
-    private fun showLanguageSelectionDialog() {
-        val currentIsTc = viewModel.uiState.value.isTraditionalChinese
-        val options = arrayOf("繁體中文", "English")
-        val selectedIndex = if (currentIsTc) 0 else 1
-        val dialogTitle = if (currentIsTc) "選擇語言" else "Select Language"
-        val negBtn = if (currentIsTc) "取消" else "Cancel"
-
-        AlertDialog.Builder(this)
-            .setTitle(dialogTitle)
-            .setSingleChoiceItems(options, selectedIndex) { dialog, which ->
-                val shouldBeTc = which == 0
-                if (shouldBeTc != viewModel.uiState.value.isTraditionalChinese) {
-                    viewModel.toggleLanguage()
-                }
-                dialog.dismiss()
-            }
-            .setNegativeButton(negBtn, null)
-            .show()
     }
 
     private fun updateMapMarkers(postBoxes: List<PostBox>, isTc: Boolean) {
@@ -754,19 +735,23 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val isTc = viewModel.uiState.value.isTraditionalChinese
         return when (item.itemId) {
+            R.id.action_settings -> {
+                val sheet = SettingsBottomSheet.newInstance(useRedTrackingLine).apply {
+                    onToggleTrackColorListener = { isRed ->
+                        useRedTrackingLine = isRed
+                        val color = if (useRedTrackingLine) Color.parseColor("#FF1744") else Color.parseColor("#00E676")
+                        activePolyline?.outlinePaint?.color = color
+                        mapView.invalidate()
+                        updateLanguageUi(viewModel.uiState.value.isTraditionalChinese)
+                    }
+                }
+                sheet.show(supportFragmentManager, "settings")
+                true
+            }
             R.id.action_refresh -> {
                 viewModel.loadPostBoxes(forceRefresh = true)
                 val msg = if (isTc) "正在線上更新 CSDI 郵箱數據..." else "Refreshing CSDI data online..."
                 Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-                true
-            }
-            R.id.action_language -> {
-                showLanguageSelectionDialog()
-                true
-            }
-            R.id.action_planned_route -> {
-                val sheet = SequenceListBottomSheet.newInstance()
-                sheet.show(supportFragmentManager, "sequence_list")
                 true
             }
             R.id.action_track_history -> {
