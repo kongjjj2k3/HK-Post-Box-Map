@@ -180,9 +180,9 @@ class MainActivity : AppCompatActivity() {
         mapView.isTilesScaledToDpi = true
         mapView.tilesScaleFactor = 1.00f
 
-        // Set Max Zoom Level to 20.0
+        // Set Max Native Zoom Level to 19.0 to prevent pixelation/blurriness
         mapView.minZoomLevel = 10.0
-        mapView.maxZoomLevel = 20.0
+        mapView.maxZoomLevel = 19.0
         mapView.controller.setZoom(13.0)
         mapView.controller.setCenter(hkCenterPoint)
 
@@ -217,8 +217,8 @@ class MainActivity : AppCompatActivity() {
 
         tvTitle.text = if (isTc) "調整地圖縮放 (Zoom Level)" else "Map Zoom Level"
 
-        val rawZoom = mapView.zoomLevelDouble.toFloat().coerceIn(10.0f, 20.0f)
-        val roundedZoom = (Math.round(rawZoom * 10f) / 10f).coerceIn(10.0f, 20.0f)
+        val rawZoom = mapView.zoomLevelDouble.toFloat().coerceIn(10.0f, 19.0f)
+        val roundedZoom = (Math.round(rawZoom * 10f) / 10f).coerceIn(10.0f, 19.0f)
         slider.value = roundedZoom
         tvValue.text = String.format(Locale.getDefault(), "%.1f", roundedZoom)
 
