@@ -13,4 +13,10 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">#F0F0F0</item>
     </style>
+
+    <!-- Square Button Shape with Slight Rounded Corners (8dp) -->
+    <style name="RoundedSquareFabStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
 </resources>
