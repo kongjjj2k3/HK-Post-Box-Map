@@ -481,6 +481,17 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, toastMsg, Toast.LENGTH_SHORT).show()
     }
 
+    private fun clearDisplayedHistoryTrack() {
+        val isTc = viewModel.uiState.value.isTraditionalChinese
+        displayedHistoryPolyline?.let { mapView.overlays.remove(it) }
+        displayedHistoryPolyline = null
+        historyMarkers.forEach { mapView.overlays.remove(it) }
+        historyMarkers.clear()
+        mapView.invalidate()
+        val msg = if (isTc) "已隱藏地圖顯示的歷史軌跡" else "Hidden displayed track from map"
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    }
+
     private fun hasLocationPermission(): Boolean {
         return ContextCompat.checkSelfPermission(
             this,
@@ -593,10 +604,8 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.title = if (isTc) "香港郵箱地圖" else "HK Post Box Map"
         binding.contentMain.searchView.queryHint = if (isTc) "搜尋郵箱編號、地址或地區..." else "Search box no., address, district..."
 
-        optionsMenu?.findItem(R.id.action_refresh)?.title = if (isTc) "更新數據" else "Refresh Data"
         optionsMenu?.findItem(R.id.action_track_history)?.title = if (isTc) "查看軌跡記錄" else "Track History"
         optionsMenu?.findItem(R.id.action_settings)?.title = if (isTc) "設定" else "Settings"
-        optionsMenu?.findItem(R.id.action_clear_history_track)?.title = if (isTc) "隱藏地圖顯示的歷史軌跡" else "Hide Displayed Track"
 
         setupDistrictChips(isTc)
     }
@@ -738,14 +747,13 @@ class MainActivity : AppCompatActivity() {
                         mapView.invalidate()
                         updateLanguageUi(viewModel.uiState.value.isTraditionalChinese)
                     }
+                    onRefreshDataListener = {
+                        viewModel.loadPostBoxes(forceRefresh = true)
+                        val msg = if (isTc) "正在線上更新 CSDI 郵箱數據..." else "Refreshing CSDI data online..."
+                        Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
+                    }
                 }
                 sheet.show(supportFragmentManager, "settings")
-                true
-            }
-            R.id.action_refresh -> {
-                viewModel.loadPostBoxes(forceRefresh = true)
-                val msg = if (isTc) "正在線上更新 CSDI 郵箱數據..." else "Refreshing CSDI data online..."
-                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
                 true
             }
             R.id.action_track_history -> {
@@ -753,18 +761,11 @@ class MainActivity : AppCompatActivity() {
                     onSelectTrackListener = { track ->
                         showTrackOnMap(track)
                     }
+                    onClearDisplayedTrackListener = {
+                        clearDisplayedHistoryTrack()
+                    }
                 }
                 sheet.show(supportFragmentManager, "track_history")
-                true
-            }
-            R.id.action_clear_history_track -> {
-                displayedHistoryPolyline?.let { mapView.overlays.remove(it) }
-                displayedHistoryPolyline = null
-                historyMarkers.forEach { mapView.overlays.remove(it) }
-                historyMarkers.clear()
-                mapView.invalidate()
-                val msg = if (isTc) "已隱藏地圖顯示的歷史軌跡" else "Hidden displayed track from map"
-                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
                 true
             }
             else -> super.onOptionsItemSelected(item)

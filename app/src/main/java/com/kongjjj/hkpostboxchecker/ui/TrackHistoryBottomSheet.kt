@@ -26,6 +26,7 @@ class TrackHistoryBottomSheet : BottomSheetDialogFragment() {
     private var isTc: Boolean = true
 
     var onSelectTrackListener: ((TrackRecord) -> Unit)? = null
+    var onClearDisplayedTrackListener: (() -> Unit)? = null
 
     companion object {
         private const val ARG_IS_TC = "arg_is_tc"
@@ -62,6 +63,12 @@ class TrackHistoryBottomSheet : BottomSheetDialogFragment() {
 
         binding.tvSheetTitle.text = if (isTc) "GPS 軌跡記錄" else "Track History"
         binding.tvEmptyHistory.text = if (isTc) "尚無已儲存的軌跡記錄" else "No saved track records"
+        binding.btnClearHistoryTrack.text = if (isTc) "隱藏顯示軌跡" else "Hide Track"
+
+        binding.btnClearHistoryTrack.setOnClickListener {
+            onClearDisplayedTrackListener?.invoke()
+            dismiss()
+        }
 
         setupRecyclerView()
         loadTracks()

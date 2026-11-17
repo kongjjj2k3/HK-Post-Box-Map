@@ -16,7 +16,7 @@
         android:layout_marginBottom="16dp"
         android:background="#505050" />
 
-    <!-- Title -->
+    <!-- Title Header -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,10 +36,19 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="GPS 軌跡記錄 / Track History"
+            android:text="GPS 軌跡記錄"
             android:textColor="#F0F0F0"
             android:textSize="18sp"
             android:textStyle="bold" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_clear_history_track"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="隱藏顯示軌跡"
+            android:textColor="#FF5252"
+            android:textSize="13sp" />
     </LinearLayout>
 
     <View
@@ -54,7 +63,7 @@
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:gravity="center"
-        android:text="尚無已儲存的軌跡記錄\nNo saved track records"
+        android:text="尚無已儲存的軌跡記錄"
         android:textColor="#808080"
         android:textSize="14sp"
         android:visibility="gone" />

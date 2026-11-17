@@ -101,6 +101,63 @@
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
+    <!-- Refresh CSDI Data Section -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        app:cardBackgroundColor="#242424"
+        app:cardCornerRadius="12dp"
+        app:strokeColor="#383838"
+        app:strokeWidth="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="14dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_lbl_refresh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="郵箱數據"
+                    android:textColor="#FFD54F"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_desc_refresh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="從 CSDI 平台線上更新全港郵箱最新資料"
+                    android:textColor="#B0B0B0"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_refresh_data"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:text="更新"
+                android:textColor="#64B5F6"
+                android:textSize="13sp"
+                app:cornerRadius="8dp"
+                app:icon="@drawable/ic_refresh"
+                app:iconTint="#64B5F6"
+                app:strokeColor="#64B5F6" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
     <!-- Tracking Style Section -->
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"

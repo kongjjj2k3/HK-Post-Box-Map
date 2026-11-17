@@ -24,6 +24,7 @@ class SettingsBottomSheet : BottomSheetDialogFragment() {
 
     var isRedTrackingLine: Boolean = false
     var onToggleTrackColorListener: ((Boolean) -> Unit)? = null
+    var onRefreshDataListener: (() -> Unit)? = null
 
     companion object {
         fun newInstance(isRedTrackingLine: Boolean): SettingsBottomSheet {
@@ -47,6 +48,7 @@ class SettingsBottomSheet : BottomSheetDialogFragment() {
 
         setupTrackColorSwitch()
         setupLanguageRadioGroup()
+        setupRefreshButton()
         observeViewModel()
     }
 
@@ -73,6 +75,13 @@ class SettingsBottomSheet : BottomSheetDialogFragment() {
         }
     }
 
+    private fun setupRefreshButton() {
+        binding.btnRefreshData.setOnClickListener {
+            onRefreshDataListener?.invoke()
+            dismiss()
+        }
+    }
+
     private fun observeViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -80,6 +89,9 @@ class SettingsBottomSheet : BottomSheetDialogFragment() {
                     val isTc = state.isTraditionalChinese
                     binding.tvSettingsTitle.text = if (isTc) "設定" else "Settings"
                     binding.tvLblLanguage.text = if (isTc) "語言選擇" else "Language"
+                    binding.tvLblRefresh.text = if (isTc) "郵箱數據" else "Post Box Data"
+                    binding.tvDescRefresh.text = if (isTc) "從 CSDI 平台線上更新全港郵箱最新資料" else "Update all HK post box data online from CSDI"
+                    binding.btnRefreshData.text = if (isTc) "更新" else "Refresh"
                     binding.tvLblTrackColor.text = if (isTc) "錄製軌跡顏色" else "Tracking Line Color"
                     binding.tvDescTrackColor.text = if (isTc) "切換紅色 / 綠色軌跡路線" else "Toggle Red / Green tracking line"
                     binding.tvLblAbout.text = if (isTc) "關於" else "About"
