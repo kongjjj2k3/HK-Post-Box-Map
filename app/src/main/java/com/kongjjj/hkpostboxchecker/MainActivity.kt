@@ -22,6 +22,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -37,6 +38,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
+import com.google.android.material.slider.Slider
 import com.google.android.material.snackbar.Snackbar
 import com.kongjjj.hkpostboxchecker.adapter.PostBoxAdapter
 import com.kongjjj.hkpostboxchecker.databinding.ActivityMainBinding
@@ -54,6 +56,9 @@ import com.kongjjj.hkpostboxchecker.viewmodel.UiState
 import com.kongjjj.hkpostboxchecker.viewmodel.ViewMode
 import kotlinx.coroutines.launch
 import org.osmdroid.config.Configuration
+import org.osmdroid.events.MapListener
+import org.osmdroid.events.ScrollEvent
+import org.osmdroid.events.ZoomEvent
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.BoundingBox
 import org.osmdroid.util.GeoPoint
@@ -181,7 +186,51 @@ class MainActivity : AppCompatActivity() {
         mapView.controller.setZoom(13.0)
         mapView.controller.setCenter(hkCenterPoint)
 
+        mapView.addMapListener(object : MapListener {
+            override fun onScroll(event: ScrollEvent?): Boolean {
+                return false
+            }
+
+            override fun onZoom(event: ZoomEvent?): Boolean {
+                runOnUiThread {
+                    updateZoomLevelDisplay()
+                }
+                return false
+            }
+        })
+
         checkLocationPermissionAndEnable()
+    }
+
+    private fun updateZoomLevelDisplay() {
+        val currentZoom = mapView.zoomLevelDouble
+        val formattedZoom = String.format(Locale.getDefault(), "%.1f", currentZoom)
+        optionsMenu?.findItem(R.id.action_zoom_level)?.title = formattedZoom
+    }
+
+    private fun showZoomSliderDialog() {
+        val isTc = viewModel.uiState.value.isTraditionalChinese
+        val dialogView = layoutInflater.inflate(R.layout.dialog_zoom_slider, null)
+        val tvTitle = dialogView.findViewById<TextView>(R.id.tv_zoom_dialog_title)
+        val tvValue = dialogView.findViewById<TextView>(R.id.tv_zoom_value_text)
+        val slider = dialogView.findViewById<Slider>(R.id.slider_zoom)
+
+        tvTitle.text = if (isTc) "調整地圖縮放 (Zoom Level)" else "Map Zoom Level"
+
+        val currentZoom = mapView.zoomLevelDouble.toFloat().coerceIn(10.0f, 20.0f)
+        slider.value = currentZoom
+        tvValue.text = String.format(Locale.getDefault(), "%.1f", currentZoom)
+
+        slider.addOnChangeListener { _, value, _ ->
+            tvValue.text = String.format(Locale.getDefault(), "%.1f", value)
+            mapView.controller.setZoom(value.toDouble())
+            updateZoomLevelDisplay()
+        }
+
+        AlertDialog.Builder(this)
+            .setView(dialogView)
+            .setPositiveButton(if (isTc) "確定" else "OK", null)
+            .show()
     }
 
     private fun setupRecyclerView() {
@@ -609,6 +658,8 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.title = if (isTc) "香港郵箱地圖" else "HK Post Box Map"
         binding.contentMain.searchView.queryHint = if (isTc) "搜尋郵箱編號、地址或地區..." else "Search box no., address, district..."
 
+        updateZoomLevelDisplay()
+
         optionsMenu?.findItem(R.id.action_track_history)?.title = if (isTc) "查看軌跡記錄" else "Track History"
         optionsMenu?.findItem(R.id.action_settings)?.title = if (isTc) "設定" else "Settings"
 
@@ -743,6 +794,10 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val isTc = viewModel.uiState.value.isTraditionalChinese
         return when (item.itemId) {
+            R.id.action_zoom_level -> {
+                showZoomSliderDialog()
+                true
+            }
             R.id.action_settings -> {
                 val sheet = SettingsBottomSheet.newInstance(useRedTrackingLine).apply {
                     onToggleTrackColorListener = { isRed ->
