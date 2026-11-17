@@ -113,7 +113,7 @@ class SettingsBottomSheet : BottomSheetDialogFragment() {
             "v1.0"
         }
         val appTitle = if (isTc) "香港郵箱地圖 " else "HK Post Box Map "
-        binding.tvAppVersion.text = "$appTitle$versionStr"
+        binding.tvAppVersion.text = "$appTitle$versionStr  by kongjjj"
     }
 
     override fun onDestroyView() {
