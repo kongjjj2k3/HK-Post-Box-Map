@@ -4,30 +4,17 @@
     tools:context="com.kongjjj.hkpostboxchecker.MainActivity">
 
     <item
-        android:id="@+id/action_refresh"
-        android:icon="@drawable/ic_refresh"
-        android:orderInCategory="1"
-        android:title="更新數據"
-        app:showAsAction="ifRoom" />
-
-    <item
         android:id="@+id/action_track_history"
         android:icon="@drawable/ic_timeline"
-        android:orderInCategory="2"
+        android:orderInCategory="1"
         android:title="查看軌跡記錄"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_settings"
         android:icon="@drawable/ic_settings"
-        android:orderInCategory="3"
+        android:orderInCategory="2"
         android:title="設定"
         app:showAsAction="always" />
-
-    <item
-        android:id="@+id/action_clear_history_track"
-        android:orderInCategory="4"
-        android:title="隱藏地圖顯示的歷史軌跡"
-        app:showAsAction="never" />
 
 </menu>
