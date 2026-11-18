@@ -94,6 +94,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 selectedPostBox = updatedSelected,
                 plannedPostBoxes = updatedPlanned
             )
+
+            viewModelScope.launch {
+                repository.saveUserEditedPostBoxes(currentBoxes)
+            }
         }
     }
 
@@ -106,6 +110,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             filteredPostBoxes = filtered,
             selectedPostBox = newBox
         )
+
+        viewModelScope.launch {
+            repository.saveUserEditedPostBoxes(currentBoxes)
+        }
     }
 
     fun setSearchQuery(query: String) {
