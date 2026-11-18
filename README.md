@@ -14,21 +14,21 @@
 </div>
 
 ## 🌟 Key Features
-- 📮 Complete Map Mapping of All 1,157 Street Postboxes in Hong Kong:
-  - Connects to the CSDI API for real-time data retrieval, supplemented by a built-in offline GeoJSON fallback database.
-  - Supports viewing postbox numbers, detailed addresses, districts, daily collection/cut-off times, and one-tap navigation via Google Maps.
-- 🔍 Powerful Search & District Filtering:
-  - Supports real-time search by postbox number, street, or area name.
-  - Quickly switch across all 18 districts in Hong Kong (Central & Western, Yau Tsim Mong, Islands, Sha Tin, etc.).
-- 🥾 Pro-Grade Background GPS Hiking/Route Tracking (Foreground Service):
-  - Utilizes Android Foreground Service + WakeLock to continuously and accurately record GPS movement tracks even when the screen is locked, in your pocket, or switching apps.
-  - Supports persistent system notification bar updates with real-time distance and duration calculations, plus free switching between Bright Red and Neon Green route colors.
-  - Track files are automatically saved persistently and can be replayed anytime in the "View Track History" menu, highlighted on OpenStreetMap.
-  - Tracks can be exported as .gpx files for use in external mapping applications.
-- 🗺️ Custom Planned Postbox Walking Route:
-  - Freely select multiple postboxes as targets to assemble an optimal walking navigation sequence (1, 2, 3...).
-  - Real-time numbered badges and a golden planned route are displayed on the map; sequence data is automatically saved and restored (Auto-Save/Restore) even after restarting the app.
-- 🎨 Charcoal Dark Mode & Authentic Bilingual Switching (Traditional Chinese / English).
+- 📮 **Complete Map Mapping of All 1,157 Street Postboxes in Hong Kong:**
+  - **Connects to the CSDI API for real-time data retrieval, supplemented by a built-in offline GeoJSON fallback database.**
+  - **Supports viewing postbox numbers, detailed addresses, districts, daily collection/cut-off times, and one-tap navigation via Google Maps.**
+- 🔍 **Powerful Search & District Filtering:**
+  - **Supports real-time search by postbox number, street, or area name.**
+  - **Quickly switch across all 18 districts in Hong Kong (Central & Western, Yau Tsim Mong, Islands, Sha Tin, etc.).**
+- 🥾 **Pro-Grade Background GPS Hiking/Route Tracking (Foreground Service):**
+  - **Utilizes Android Foreground Service + WakeLock to continuously and accurately record GPS movement tracks even when the screen is locked, in your pocket, or switching apps.**
+  - **Supports persistent system notification bar updates with real-time distance and duration calculations, plus free switching between Bright Red and Neon Green route colors.**
+  - **Track files are automatically saved persistently and can be replayed anytime in the "View Track History" menu, highlighted on OpenStreetMap.**
+  - **Tracks can be exported as .gpx files for use in external mapping applications.**
+- 🗺️ **Custom Planned Postbox Walking Route:**
+  - **Freely select multiple postboxes as targets to assemble an optimal walking navigation sequence (1, 2, 3...).**
+  - **Real-time numbered badges and a golden planned route are displayed on the map; sequence data is automatically saved and restored (Auto-Save/Restore) even after restarting the app.**
+- 🎨 **Charcoal Dark Mode & Authentic Bilingual Switching (Traditional Chinese / English).**
 - ✏️ **Edit Mode feature: editable postbox info, draggable pin markers, long-press map to add postbox, and reset on data refresh.**
 
 ## 🌟 主要功能與特色
