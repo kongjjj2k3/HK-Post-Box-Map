@@ -29,6 +29,7 @@
   - Freely select multiple postboxes as targets to assemble an optimal walking navigation sequence (1, 2, 3...).
   - Real-time numbered badges and a golden planned route are displayed on the map; sequence data is automatically saved and restored (Auto-Save/Restore) even after restarting the app.
 - 🎨 Charcoal Dark Mode & Authentic Bilingual Switching (Traditional Chinese / English).
+- ✏️ **Edit Mode feature: editable postbox info, draggable pin markers, long-press map to add postbox, and reset on data refresh.**
 
 ## 🌟 主要功能與特色
 
