@@ -18,19 +18,23 @@ class PostBoxDetailBottomSheet : BottomSheetDialogFragment() {
 
     private var postBox: PostBox? = null
     private var isTc: Boolean = true
+    private var isEditMode: Boolean = false
 
     var onDismissListener: (() -> Unit)? = null
     var onAddToPlannedRouteListener: ((PostBox) -> Unit)? = null
+    var onEditPostBoxListener: ((PostBox) -> Unit)? = null
 
     companion object {
         private const val ARG_POST_BOX = "arg_post_box"
         private const val ARG_IS_TC = "arg_is_tc"
+        private const val ARG_IS_EDIT_MODE = "arg_is_edit_mode"
 
-        fun newInstance(postBox: PostBox, isTc: Boolean): PostBoxDetailBottomSheet {
+        fun newInstance(postBox: PostBox, isTc: Boolean, isEditMode: Boolean = false): PostBoxDetailBottomSheet {
             val fragment = PostBoxDetailBottomSheet()
             val args = Bundle().apply {
                 putSerializable(ARG_POST_BOX, postBox)
                 putBoolean(ARG_IS_TC, isTc)
+                putBoolean(ARG_IS_EDIT_MODE, isEditMode)
             }
             fragment.arguments = args
             return fragment
@@ -43,6 +47,7 @@ class PostBoxDetailBottomSheet : BottomSheetDialogFragment() {
             @Suppress("DEPRECATION")
             postBox = it.getSerializable(ARG_POST_BOX) as? PostBox
             isTc = it.getBoolean(ARG_IS_TC, true)
+            isEditMode = it.getBoolean(ARG_IS_EDIT_MODE, false)
         }
     }
 
@@ -71,6 +76,17 @@ class PostBoxDetailBottomSheet : BottomSheetDialogFragment() {
         val subDistrict = box.getDisplaySubDistrict(isTc)
         val coordsText = "(${String.format("%.5f", box.latitude)}, ${String.format("%.5f", box.longitude)})"
         binding.tvSubdistrictCoords.text = if (subDistrict.isNotBlank()) "$subDistrict  $coordsText" else coordsText
+
+        if (isEditMode) {
+            binding.btnEditPostBox.visibility = View.VISIBLE
+            binding.btnEditPostBox.text = if (isTc) "編輯郵箱資訊" else "Edit Post Box Info"
+            binding.btnEditPostBox.setOnClickListener {
+                onEditPostBoxListener?.invoke(box)
+                dismiss()
+            }
+        } else {
+            binding.btnEditPostBox.visibility = View.GONE
+        }
 
         binding.btnAddToRoute.text = if (isTc) "加入預定路徑順序" else "Add to Planned Route"
         binding.btnAddToRoute.setOnClickListener {

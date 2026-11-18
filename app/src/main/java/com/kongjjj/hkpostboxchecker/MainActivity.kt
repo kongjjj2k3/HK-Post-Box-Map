@@ -56,6 +56,7 @@ import com.kongjjj.hkpostboxchecker.viewmodel.UiState
 import com.kongjjj.hkpostboxchecker.viewmodel.ViewMode
 import kotlinx.coroutines.launch
 import org.osmdroid.config.Configuration
+import org.osmdroid.events.MapEventsReceiver
 import org.osmdroid.events.MapListener
 import org.osmdroid.events.ScrollEvent
 import org.osmdroid.events.ZoomEvent
@@ -64,6 +65,7 @@ import org.osmdroid.tileprovider.tilesource.XYTileSource
 import org.osmdroid.util.BoundingBox
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.MapEventsOverlay
 import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.Polyline
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
@@ -211,6 +213,23 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        // Map events overlay for long press to add new postbox
+        val mapEventsReceiver = object : MapEventsReceiver {
+            override fun singleTapConfirmedHelper(p: GeoPoint?): Boolean {
+                return false
+            }
+
+            override fun longPressHelper(p: GeoPoint?): Boolean {
+                if (viewModel.uiState.value.isEditModeEnabled && p != null) {
+                    showAddPostBoxDialog(p.latitude, p.longitude)
+                    return true
+                }
+                return false
+            }
+        }
+        val eventsOverlay = MapEventsOverlay(mapEventsReceiver)
+        mapView.overlays.add(0, eventsOverlay)
+
         checkLocationPermissionAndEnable()
     }
 
@@ -286,6 +305,127 @@ class MainActivity : AppCompatActivity() {
         AlertDialog.Builder(this)
             .setView(dialogView)
             .setPositiveButton(if (isTc) "確定" else "OK", null)
+            .show()
+    }
+
+    private fun showEditPostBoxDialog(postBox: PostBox) {
+        val isTc = viewModel.uiState.value.isTraditionalChinese
+        val dialogView = layoutInflater.inflate(R.layout.dialog_edit_postbox, null)
+        val tvTitle = dialogView.findViewById<TextView>(R.id.tv_edit_dialog_title)
+        val etBoxNum = dialogView.findViewById<EditText>(R.id.et_box_number)
+        val etAddressTc = dialogView.findViewById<EditText>(R.id.et_address_tc)
+        val etAddressEn = dialogView.findViewById<EditText>(R.id.et_address_en)
+        val etDistrictTc = dialogView.findViewById<EditText>(R.id.et_district_tc)
+        val etDistrictEn = dialogView.findViewById<EditText>(R.id.et_district_en)
+        val etCollectionTime = dialogView.findViewById<EditText>(R.id.et_collection_time)
+        val etLat = dialogView.findViewById<EditText>(R.id.et_latitude)
+        val etLng = dialogView.findViewById<EditText>(R.id.et_longitude)
+
+        tvTitle.text = if (isTc) "編輯郵箱資訊" else "Edit Post Box Info"
+        etBoxNum.setText(postBox.getDisplayName(isTc))
+        etAddressTc.setText(postBox.addressTc)
+        etAddressEn.setText(postBox.addressEn)
+        etDistrictTc.setText(postBox.districtTc)
+        etDistrictEn.setText(postBox.districtEn)
+        etCollectionTime.setText(postBox.getDisplayCollectionTime(isTc))
+        etLat.setText(postBox.latitude.toString())
+        etLng.setText(postBox.longitude.toString())
+
+        AlertDialog.Builder(this)
+            .setView(dialogView)
+            .setPositiveButton(if (isTc) "儲存" else "Save") { _, _ ->
+                val nameStr = etBoxNum.text.toString().ifBlank { postBox.nameEn }
+                val addrTc = etAddressTc.text.toString().ifBlank { postBox.addressTc }
+                val addrEn = etAddressEn.text.toString().ifBlank { postBox.addressEn }
+                val distTc = etDistrictTc.text.toString().ifBlank { postBox.districtTc }
+                val distEn = etDistrictEn.text.toString().ifBlank { postBox.districtEn }
+                val collTime = etCollectionTime.text.toString().ifBlank { postBox.lastCollectionTimeTc }
+                val lat = etLat.text.toString().toDoubleOrNull() ?: postBox.latitude
+                val lng = etLng.text.toString().toDoubleOrNull() ?: postBox.longitude
+
+                val updatedBox = postBox.copy(
+                    nameTc = if (isTc) nameStr else postBox.nameTc,
+                    nameEn = if (!isTc) nameStr else postBox.nameEn,
+                    addressTc = addrTc,
+                    addressEn = addrEn,
+                    districtTc = distTc,
+                    districtEn = distEn,
+                    lastCollectionTimeTc = collTime,
+                    lastCollectionTimeEn = collTime,
+                    latitude = lat,
+                    longitude = lng
+                )
+
+                viewModel.updatePostBox(updatedBox)
+                val msg = if (isTc) "已成功儲存郵箱資訊！" else "Post box saved successfully!"
+                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+            }
+            .setNegativeButton(if (isTc) "取消" else "Cancel", null)
+            .show()
+    }
+
+    private fun showAddPostBoxDialog(lat: Double, lng: Double) {
+        val isTc = viewModel.uiState.value.isTraditionalChinese
+        val dialogView = layoutInflater.inflate(R.layout.dialog_edit_postbox, null)
+        val tvTitle = dialogView.findViewById<TextView>(R.id.tv_edit_dialog_title)
+        val etBoxNum = dialogView.findViewById<EditText>(R.id.et_box_number)
+        val etAddressTc = dialogView.findViewById<EditText>(R.id.et_address_tc)
+        val etAddressEn = dialogView.findViewById<EditText>(R.id.et_address_en)
+        val etDistrictTc = dialogView.findViewById<EditText>(R.id.et_district_tc)
+        val etDistrictEn = dialogView.findViewById<EditText>(R.id.et_district_en)
+        val etCollectionTime = dialogView.findViewById<EditText>(R.id.et_collection_time)
+        val etLat = dialogView.findViewById<EditText>(R.id.et_latitude)
+        val etLng = dialogView.findViewById<EditText>(R.id.et_longitude)
+
+        tvTitle.text = if (isTc) "新增郵箱地標" else "Add New Post Box"
+        etLat.setText(String.format(Locale.US, "%.5f", lat))
+        etLng.setText(String.format(Locale.US, "%.5f", lng))
+
+        AlertDialog.Builder(this)
+            .setView(dialogView)
+            .setPositiveButton(if (isTc) "新增" else "Add") { _, _ ->
+                val nameStr = etBoxNum.text.toString().ifBlank { if (isTc) "自訂新增郵箱" else "Custom Added Box" }
+                val addrTc = etAddressTc.text.toString().ifBlank { "自訂地點" }
+                val addrEn = etAddressEn.text.toString().ifBlank { "Custom Location" }
+                val distTc = etDistrictTc.text.toString().ifBlank { "其他分區" }
+                val distEn = etDistrictEn.text.toString().ifBlank { "OTHER" }
+                val collTime = etCollectionTime.text.toString().ifBlank { "每日 15:00" }
+                val newLat = etLat.text.toString().toDoubleOrNull() ?: lat
+                val newLng = etLng.text.toString().toDoubleOrNull() ?: lng
+
+                val newId = (viewModel.uiState.value.postBoxes.maxOfOrNull { it.id } ?: 1000) + 1
+
+                val newBox = PostBox(
+                    id = newId,
+                    nameEn = nameStr,
+                    nameTc = nameStr,
+                    addressEn = addrEn,
+                    addressTc = addrTc,
+                    districtEn = distEn,
+                    districtTc = distTc,
+                    subDistrictEn = "",
+                    subDistrictTc = "",
+                    lastCollectionTimeEn = collTime,
+                    lastCollectionTimeTc = collTime,
+                    openingHoursEn = "",
+                    openingHoursTc = "",
+                    telephoneEn = "",
+                    telephoneTc = "",
+                    emailEn = "",
+                    emailTc = "",
+                    websiteEn = "",
+                    websiteTc = "",
+                    remarksEn = "",
+                    remarksTc = "",
+                    latitude = newLat,
+                    longitude = newLng
+                )
+
+                viewModel.addPostBox(newBox)
+                val msg = if (isTc) "已成功新增郵箱：$nameStr！" else "Added new box: $nameStr!"
+                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+            }
+            .setNegativeButton(if (isTc) "取消" else "Cancel", null)
             .show()
     }
 
@@ -665,9 +805,9 @@ class MainActivity : AppCompatActivity() {
 
         // 4. Status Count
         val countText = if (state.isTraditionalChinese) {
-            "已顯示 ${state.filteredPostBoxes.size} 個郵箱"
+            "已顯示 ${state.filteredPostBoxes.size} 個郵箱" + if (state.isEditModeEnabled) " (編輯模式中)" else ""
         } else {
-            "Showing ${state.filteredPostBoxes.size} boxes"
+            "Showing ${state.filteredPostBoxes.size} boxes" + if (state.isEditModeEnabled) " (Edit Mode)" else ""
         }
         binding.contentMain.tvStatusCount.text = countText
 
@@ -690,7 +830,7 @@ class MainActivity : AppCompatActivity() {
         state.selectedPostBox?.let { postBox ->
             val existingSheet = supportFragmentManager.findFragmentByTag("post_box_detail") as? PostBoxDetailBottomSheet
             if (existingSheet == null) {
-                val sheet = PostBoxDetailBottomSheet.newInstance(postBox, state.isTraditionalChinese).apply {
+                val sheet = PostBoxDetailBottomSheet.newInstance(postBox, state.isTraditionalChinese, state.isEditModeEnabled).apply {
                     onDismissListener = {
                         viewModel.selectPostBox(null)
                     }
@@ -700,6 +840,9 @@ class MainActivity : AppCompatActivity() {
                         val name = box.getDisplayName(state.isTraditionalChinese)
                         val toastMsg = if (state.isTraditionalChinese) "已加入預定順序 #${num}：${name}" else "Added to planned sequence #${num}: ${name}"
                         Toast.makeText(this@MainActivity, toastMsg, Toast.LENGTH_SHORT).show()
+                    }
+                    onEditPostBoxListener = { box ->
+                        showEditPostBoxDialog(box)
                     }
                 }
                 sheet.show(supportFragmentManager, "post_box_detail")
@@ -731,6 +874,7 @@ class MainActivity : AppCompatActivity() {
         mapView.overlays.removeAll(overlaysToRemove.toSet())
 
         val postboxDrawable = AppCompatResources.getDrawable(this, R.drawable.ic_postbox)
+        val isEditMode = viewModel.uiState.value.isEditModeEnabled
 
         for (postBox in postBoxes) {
             val marker = Marker(mapView).apply {
@@ -739,6 +883,25 @@ class MainActivity : AppCompatActivity() {
                 snippet = postBox.getDisplayAddress(isTc)
                 icon = postboxDrawable
                 setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+
+                isDraggable = isEditMode
+                if (isEditMode) {
+                    setOnMarkerDragListener(object : Marker.OnMarkerDragListener {
+                        override fun onMarkerDragStart(m: Marker?) {}
+                        override fun onMarkerDrag(m: Marker?) {}
+                        override fun onMarkerDragEnd(m: Marker?) {
+                            if (m != null) {
+                                val newLat = m.position.latitude
+                                val newLng = m.position.longitude
+                                val updated = postBox.copy(latitude = newLat, longitude = newLng)
+                                viewModel.updatePostBox(updated)
+                                val msg = if (isTc) "已更新郵箱位置：${updated.getDisplayName(isTc)}\n(${String.format(Locale.US, "%.5f", newLat)}, ${String.format(Locale.US, "%.5f", newLng)})" else "Updated box position: ${updated.getDisplayName(isTc)}"
+                                Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    })
+                }
+
                 setOnMarkerClickListener { m, _ ->
                     viewModel.selectPostBox(postBox)
                     m.showInfoWindow()
@@ -870,7 +1033,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     onRefreshDataListener = {
                         viewModel.loadPostBoxes(forceRefresh = true)
-                        val msg = if (isTc) "正在線上更新 CSDI 郵箱數據..." else "Refreshing CSDI data online..."
+                        val msg = if (isTc) "正在線上更新 CSDI 郵箱數據... (已重置本機編輯)" else "Refreshing CSDI data online... (Reset edits)"
                         Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
                     }
                 }

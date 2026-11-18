@@ -47,6 +47,7 @@ class SettingsBottomSheet : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupTrackColorSwitch()
+        setupEditModeSwitch()
         setupLanguageRadioGroup()
         setupRefreshButton()
         observeViewModel()
@@ -56,6 +57,13 @@ class SettingsBottomSheet : BottomSheetDialogFragment() {
         binding.switchTrackColor.isChecked = isRedTrackingLine
         binding.switchTrackColor.setOnCheckedChangeListener { _, isChecked ->
             onToggleTrackColorListener?.invoke(isChecked)
+        }
+    }
+
+    private fun setupEditModeSwitch() {
+        binding.switchEditMode.isChecked = viewModel.uiState.value.isEditModeEnabled
+        binding.switchEditMode.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.toggleEditMode(isChecked)
         }
     }
 
@@ -89,8 +97,10 @@ class SettingsBottomSheet : BottomSheetDialogFragment() {
                     val isTc = state.isTraditionalChinese
                     binding.tvSettingsTitle.text = if (isTc) "設定" else "Settings"
                     binding.tvLblLanguage.text = if (isTc) "語言選擇" else "Language"
+                    binding.tvLblEditMode.text = if (isTc) "編輯模式" else "Edit Mode"
+                    binding.tvDescEditMode.text = if (isTc) "開啟後可編輯郵箱資訊、拖曳 Pin 位置及長按地圖新增郵箱" else "Edit box info, drag pin & long press map to add"
                     binding.tvLblRefresh.text = if (isTc) "郵箱數據" else "Post Box Data"
-                    binding.tvDescRefresh.text = if (isTc) "從 CSDI 平台線上更新全港郵箱最新資料" else "Update all HK post box data online from CSDI"
+                    binding.tvDescRefresh.text = if (isTc) "從 CSDI 平台線上更新全港郵箱最新資料 (消除本機編輯)" else "Update all HK post box data online from CSDI (clears local edits)"
                     binding.btnRefreshData.text = if (isTc) "更新" else "Refresh"
                     binding.tvLblTrackColor.text = if (isTc) "錄製軌跡顏色" else "Tracking Line Color"
                     binding.tvDescTrackColor.text = if (isTc) "切換紅色 / 綠色軌跡路線" else "Toggle Red / Green tracking line"

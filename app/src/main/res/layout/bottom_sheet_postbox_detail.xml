@@ -176,6 +176,24 @@
         </LinearLayout>
     </LinearLayout>
 
+    <!-- Edit Box Info Button (Only shown when Edit Mode is active) -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_edit_post_box"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginBottom="10dp"
+        android:text="編輯郵箱資訊"
+        android:textColor="#FFD54F"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:cornerRadius="12dp"
+        app:icon="@android:drawable/ic_menu_edit"
+        app:iconGravity="textStart"
+        app:iconPadding="8dp"
+        app:iconTint="#FFD54F"
+        app:strokeColor="#FFD54F" />
+
     <!-- Add to Planned Route Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_add_to_route"
