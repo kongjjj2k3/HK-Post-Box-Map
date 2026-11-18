@@ -116,6 +116,29 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun deletePostBox(postBoxId: Int) {
+        val currentBoxes = _uiState.value.postBoxes.toMutableList()
+        val removed = currentBoxes.removeAll { it.id == postBoxId }
+        if (removed) {
+            val filtered = filterList(currentBoxes, _uiState.value.searchQuery, _uiState.value.selectedDistrict)
+            val updatedSelected = if (_uiState.value.selectedPostBox?.id == postBoxId) null else _uiState.value.selectedPostBox
+
+            // Also remove from planned route if present
+            val updatedPlanned = _uiState.value.plannedPostBoxes.filter { it.id != postBoxId }
+
+            _uiState.value = _uiState.value.copy(
+                postBoxes = currentBoxes,
+                filteredPostBoxes = filtered,
+                selectedPostBox = updatedSelected,
+                plannedPostBoxes = updatedPlanned
+            )
+
+            viewModelScope.launch {
+                repository.saveUserEditedPostBoxes(currentBoxes)
+            }
+        }
+    }
+
     fun setSearchQuery(query: String) {
         val current = _uiState.value
         val filtered = filterList(current.postBoxes, query, current.selectedDistrict)

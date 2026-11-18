@@ -175,5 +175,21 @@
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
+        <!-- Delete Button (Only shown when editing an existing postbox) -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_delete_postbox"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="16dp"
+            android:text="刪除此郵箱"
+            android:textColor="#FF5252"
+            android:textSize="13sp"
+            android:visibility="gone"
+            app:cornerRadius="8dp"
+            app:icon="@android:drawable/ic_menu_delete"
+            app:iconTint="#FF5252"
+            app:strokeColor="#FF5252" />
+
     </LinearLayout>
 </ScrollView>

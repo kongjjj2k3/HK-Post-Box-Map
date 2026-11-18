@@ -320,6 +320,7 @@ class MainActivity : AppCompatActivity() {
         val etCollectionTime = dialogView.findViewById<EditText>(R.id.et_collection_time)
         val etLat = dialogView.findViewById<EditText>(R.id.et_latitude)
         val etLng = dialogView.findViewById<EditText>(R.id.et_longitude)
+        val btnDelete = dialogView.findViewById<View>(R.id.btn_delete_postbox)
 
         tvTitle.text = if (isTc) "編輯郵箱資訊" else "Edit Post Box Info"
         etBoxNum.setText(postBox.getDisplayName(isTc))
@@ -331,7 +332,8 @@ class MainActivity : AppCompatActivity() {
         etLat.setText(postBox.latitude.toString())
         etLng.setText(postBox.longitude.toString())
 
-        AlertDialog.Builder(this)
+        btnDelete.visibility = View.VISIBLE
+        val editDialog = AlertDialog.Builder(this)
             .setView(dialogView)
             .setPositiveButton(if (isTc) "儲存" else "Save") { _, _ ->
                 val nameStr = etBoxNum.text.toString().ifBlank { postBox.nameEn }
@@ -361,7 +363,23 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
             }
             .setNegativeButton(if (isTc) "取消" else "Cancel", null)
-            .show()
+            .create()
+
+        btnDelete.setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle(if (isTc) "刪除郵箱" else "Delete Post Box")
+                .setMessage(if (isTc) "確定要刪除「${postBox.getDisplayName(isTc)}」嗎？" else "Are you sure to delete '${postBox.getDisplayName(isTc)}'?")
+                .setPositiveButton(if (isTc) "刪除" else "Delete") { _, _ ->
+                    viewModel.deletePostBox(postBox.id)
+                    editDialog.dismiss()
+                    val msg = if (isTc) "已成功刪除郵箱！" else "Post box deleted successfully!"
+                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+                }
+                .setNegativeButton(if (isTc) "取消" else "Cancel", null)
+                .show()
+        }
+
+        editDialog.show()
     }
 
     private fun showAddPostBoxDialog(lat: Double, lng: Double) {
