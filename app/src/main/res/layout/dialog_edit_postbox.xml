@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#242424"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_edit_dialog_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="編輯郵箱資訊 / Edit Post Box"
+            android:textColor="#F0F0F0"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <!-- Box Number -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:hint="郵箱名稱/編號 (Box Name/No.)"
+            app:boxStrokeColor="#FFD54F"
+            app:hintTextColor="#FFD54F">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_box_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textColor="#F0F0F0" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Address TC -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:hint="中文位置/地址 (Address TC)"
+            app:boxStrokeColor="#FFD54F"
+            app:hintTextColor="#FFD54F">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_address_tc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:maxLines="3"
+                android:textColor="#F0F0F0" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Address EN -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:hint="英文位置/地址 (Address EN)"
+            app:boxStrokeColor="#FFD54F"
+            app:hintTextColor="#FFD54F">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_address_en"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:maxLines="3"
+                android:textColor="#F0F0F0" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- District TC -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:hint="中文分區 (District TC)"
+            app:boxStrokeColor="#FFD54F"
+            app:hintTextColor="#FFD54F">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_district_tc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textColor="#F0F0F0" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- District EN -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:hint="英文分區 (District EN)"
+            app:boxStrokeColor="#FFD54F"
+            app:hintTextColor="#FFD54F">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_district_en"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textColor="#F0F0F0" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Collection Time -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:hint="截郵時間 (Collection Time)"
+            app:boxStrokeColor="#FFD54F"
+            app:hintTextColor="#FFD54F">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_collection_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textColor="#F0F0F0" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Latitude & Longitude -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:hint="緯度 (Latitude)"
+                app:boxStrokeColor="#FFD54F"
+                app:hintTextColor="#FFD54F">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_latitude"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal|numberSigned"
+                    android:textColor="#F0F0F0" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_weight="1"
+                android:hint="經度 (Longitude)"
+                app:boxStrokeColor="#FFD54F"
+                app:hintTextColor="#FFD54F">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_longitude"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal|numberSigned"
+                    android:textColor="#F0F0F0" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

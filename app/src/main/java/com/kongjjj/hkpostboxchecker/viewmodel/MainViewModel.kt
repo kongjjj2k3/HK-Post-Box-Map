@@ -26,7 +26,8 @@ data class UiState(
     val isTraditionalChinese: Boolean = true,
     val viewMode: ViewMode = ViewMode.MAP,
     val isPlannedRouteActive: Boolean = false,
-    val plannedPostBoxes: List<PostBox> = emptyList()
+    val plannedPostBoxes: List<PostBox> = emptyList(),
+    val isEditModeEnabled: Boolean = false
 )
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
@@ -70,6 +71,41 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 )
             }
         }
+    }
+
+    fun toggleEditMode(enabled: Boolean) {
+        _uiState.value = _uiState.value.copy(isEditModeEnabled = enabled)
+    }
+
+    fun updatePostBox(updatedBox: PostBox) {
+        val currentBoxes = _uiState.value.postBoxes.toMutableList()
+        val index = currentBoxes.indexOfFirst { it.id == updatedBox.id }
+        if (index != -1) {
+            currentBoxes[index] = updatedBox
+            val filtered = filterList(currentBoxes, _uiState.value.searchQuery, _uiState.value.selectedDistrict)
+            val updatedSelected = if (_uiState.value.selectedPostBox?.id == updatedBox.id) updatedBox else _uiState.value.selectedPostBox
+
+            // Also update in planned route if present
+            val updatedPlanned = _uiState.value.plannedPostBoxes.map { if (it.id == updatedBox.id) updatedBox else it }
+
+            _uiState.value = _uiState.value.copy(
+                postBoxes = currentBoxes,
+                filteredPostBoxes = filtered,
+                selectedPostBox = updatedSelected,
+                plannedPostBoxes = updatedPlanned
+            )
+        }
+    }
+
+    fun addPostBox(newBox: PostBox) {
+        val currentBoxes = _uiState.value.postBoxes.toMutableList()
+        currentBoxes.add(0, newBox)
+        val filtered = filterList(currentBoxes, _uiState.value.searchQuery, _uiState.value.selectedDistrict)
+        _uiState.value = _uiState.value.copy(
+            postBoxes = currentBoxes,
+            filteredPostBoxes = filtered,
+            selectedPostBox = newBox
+        )
     }
 
     fun setSearchQuery(query: String) {
