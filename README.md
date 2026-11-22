@@ -1,7 +1,7 @@
 <div align="center">
   
 # 香港郵箱地圖 (HK Post Box Map) 📮🗺️
-一個基於 Android、OpenStreetMap (osmdroid) 及香港 CSDI (空間數據共享平台) Open Data 打造的完整郵箱地圖與 GPS 行山軌跡記錄應用程式。
+*一個基於 Android、OpenStreetMap (osmdroid) 及香港 CSDI (空間數據共享平台) Open Data 打造的完整郵箱地圖與 GPS 行山軌跡記錄應用程式。*
 <br><br>
 [![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://)
 ![GitHub repo size](https://img.shields.io/github/repo-size/kongjjj2k3/HK-Post-Box-Map?&style=for-the-badge)
